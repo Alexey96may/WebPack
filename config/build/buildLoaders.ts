@@ -1,18 +1,24 @@
 import { ModuleOptions } from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BuildOptions } from "./types/types";
+import path from "path";
 
 export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     const isDev = options.mode === "development";
 
     const assetLoader = {
-        test: /\.(png|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|webp)$/i,
         type: "asset/resource",
     };
 
-    const svgrLoader = {
-        test: /\.svg$/i,
-        type: "asset/resource",
+    const icoLoader = {
+        test: /\.ico$/,
+        type: "asset",
+        generator: {
+            filename: path.join("[name].[contenthash][ext]"),
+            outputPath: path.join("assets", "img", "icons/"),
+            publicPath: path.join("assets", "img", "icons/"),
+        },
     };
 
     const cssLoaderWithModules = {
@@ -33,6 +39,8 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
             isDev ? "style-loader" : MiniCssExtractPlugin.loader,
             // Translates CSS into CommonJS
             cssLoaderWithModules,
+            "postcss-loader",
+            "group-css-media-queries-loader",
             // Compiles Sass to CSS
             "sass-loader",
         ],
@@ -51,5 +59,5 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
         ],
     };
 
-    return [assetLoader, scssLoader, tsLoader, svgrLoader];
+    return [assetLoader, scssLoader, tsLoader, icoLoader];
 }

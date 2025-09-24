@@ -65,6 +65,10 @@ export function buildPlugins({
                         from: path.resolve(paths.public, "locales"),
                         to: path.resolve(paths.output, "locales"),
                     },
+                    {
+                        from: path.resolve(paths.src, "assets"),
+                        to: path.resolve(paths.output, "assets/img"),
+                    },
                 ],
             })
         );
