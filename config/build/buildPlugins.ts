@@ -69,6 +69,10 @@ export function buildPlugins({
                         from: path.resolve(paths.src, "assets"),
                         to: path.resolve(paths.output, "assets/img"),
                     },
+                    {
+                        from: path.resolve(paths.src, "assets/fonts"),
+                        to: path.resolve(paths.output, "assets/fonts"),
+                    },
                 ],
             })
         );
