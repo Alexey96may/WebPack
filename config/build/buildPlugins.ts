@@ -51,32 +51,31 @@ export function buildPlugins({
         plugins.push(new ForkTsCheckerWebpackPlugin());
     }
 
-    if (isProd) {
-        plugins.push(
-            new MiniCssExtractPlugin({
-                filename: "css/[name].[contenthash:8].css",
-                chunkFilename: "css/[name].[contenthash:8].css",
-            })
-        );
-        plugins.push(
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: path.resolve(paths.public, "locales"),
-                        to: path.resolve(paths.output, "locales"),
-                    },
-                    {
-                        from: path.resolve(paths.src, "assets"),
-                        to: path.resolve(paths.output, "assets/img"),
-                    },
-                    {
-                        from: path.resolve(paths.src, "assets/fonts"),
-                        to: path.resolve(paths.output, "assets/fonts"),
-                    },
-                ],
-            })
-        );
-    }
+    plugins.push(
+        new MiniCssExtractPlugin({
+            filename: "css/[name].[contenthash:8].css",
+            chunkFilename: "css/[name].[contenthash:8].css",
+        })
+    );
+
+    plugins.push(
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(paths.public, "locales"),
+                    to: path.resolve(paths.output, "locales"),
+                },
+                {
+                    from: path.resolve(paths.src, "assets", "img"),
+                    to: path.resolve(paths.output, "assets", "img"),
+                },
+                // {
+                //     from: path.resolve(paths.src, "assets", "fonts"),
+                //     to: path.resolve(paths.output, "assets", "fonts"),
+                // },
+            ],
+        })
+    );
 
     if (analyzer) {
         plugins.push(new BundleAnalyzerPlugin());

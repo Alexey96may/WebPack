@@ -9,17 +9,11 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     const assetLoader = {
         test: /\.(png|svg|jpg|jpeg|webp)$/i,
         type: "asset/resource",
-        options: {
-            name: "[name].[ext]",
-        },
     };
 
     const icoLoader = {
         test: /\.ico$/,
         type: "asset",
-        options: {
-            name: "[name].[ext]",
-        },
         generator: {
             filename: path.join("[name].[contenthash][ext]"),
             outputPath: path.join("assets", "img", "icons/"),
@@ -41,13 +35,11 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     const scssLoader = {
         test: /\.s[ac]ss$/i,
         use: [
-            // Creates `style` nodes from JS strings
-            isDev ? "style-loader" : MiniCssExtractPlugin.loader,
-            // Translates CSS into CommonJS
+            // isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+            MiniCssExtractPlugin.loader,
             cssLoaderWithModules,
             "postcss-loader",
-            "group-css-media-queries-loader",
-            // Compiles Sass to CSS
+            "group-css-media-queries",
             "sass-loader",
         ],
     };
@@ -68,9 +60,6 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     const fontsLoader = {
         test: /\.(woff(2)?|ttf(2)?|eot|otf)$/,
         type: "asset/resource",
-        options: {
-            name: "[name].[ext]",
-        },
     };
 
     return [assetLoader, scssLoader, tsLoader, icoLoader, fontsLoader];
