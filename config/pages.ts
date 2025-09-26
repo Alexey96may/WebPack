@@ -10,9 +10,6 @@ export const pages: Page[] = [
     {
         name: "About",
     },
-    {
-        name: "Shop",
-    },
 ];
 
 export function getParcials(parcialsFolder: string) {
