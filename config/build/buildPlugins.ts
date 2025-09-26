@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BuildOptions } from "./types/types";
 import { pages, getParcials } from "../pages";
-import { svgPlugIn } from "./utils/svg-plugin";
+import { fontPlugIn } from "./utils/font-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ImageminAvifWebpackPlugin from "imagemin-avif-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
@@ -93,7 +93,7 @@ export function buildPlugins({
         plugins.push(new BundleAnalyzerPlugin());
     }
 
-    svgPlugIn(
+    fontPlugIn(
         path.resolve(paths.src, "assets", "fonts"),
         path.resolve(paths.src, "assets", "scss", "utils", "_fonts.scss")
     );

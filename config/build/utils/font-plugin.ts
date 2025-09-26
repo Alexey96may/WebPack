@@ -1,7 +1,16 @@
 import fs from "fs";
 import path from "path";
 
-export function svgPlugIn(fontPath: string, cssFontPath: string) {
+interface FontInfo {
+    fontName: string;
+    fontFileName: string;
+    fontWeight: string;
+    fontExt: string[];
+}
+
+type NoParamCallback = (err: NodeJS.ErrnoException | null) => void;
+
+export function fontPlugIn(fontPath: string, cssFontPath: string) {
     let fontsFile = cssFontPath;
     fs.readdir(fontPath, function (err, fontsFiles) {
         if (err) {
@@ -13,13 +22,23 @@ export function svgPlugIn(fontPath: string, cssFontPath: string) {
             if (!fs.existsSync(fontsFile)) {
                 fs.writeFile(fontsFile, "", cb);
                 let newFileOnly;
+                let fontsInfo = [];
+
                 for (let i = 0; i < fontsFiles.length; i++) {
                     let fontFileName = fontsFiles[i].split(".")[0];
                     let fontFileExt = path.extname(fontsFiles[i]).slice(1);
+
                     if (newFileOnly !== fontFileName) {
+                        fontsInfo.push({} as FontInfo);
+                        fontsInfo[fontsInfo.length - 1].fontExt = [];
+                        fontsInfo[fontsInfo.length - 1].fontFileName =
+                            fontFileName;
+
                         let fontName = fontFileName.split("-")[0]
                             ? fontFileName.split("-")[0]
                             : fontFileName;
+                        fontsInfo[fontsInfo.length - 1].fontName = fontName;
+
                         let fontWeight = fontFileName.split("-")[1]
                             ? fontFileName.split("-")[1]
                             : fontFileName;
@@ -45,14 +64,15 @@ export function svgPlugIn(fontPath: string, cssFontPath: string) {
                         } else {
                             fontWeight = "400";
                         }
-                        fs.appendFile(
-                            fontsFile,
-                            `@font-face {\n\tfont-family: ${fontName};\n\tfont-display: swap;\n\tsrc: url("../fonts/${fontFileName}.${fontFileExt}") format(${fontFileExt});\n\tfont-weight: ${fontWeight};\n\tfont-style: normal;\n}\r\n`,
-                            cb
-                        );
+                        fontsInfo[fontsInfo.length - 1].fontWeight = fontWeight;
+
                         newFileOnly = fontFileName;
                     }
+
+                    fontsInfo[fontsInfo.length - 1].fontExt.push(fontFileExt);
                 }
+
+                setFonts(fontsFile, fontsInfo, cb);
             } else {
                 console.log(
                     "Файл scss/fonts.scss уже существует, для обновления удалите его!"
@@ -61,5 +81,34 @@ export function svgPlugIn(fontPath: string, cssFontPath: string) {
         }
     });
 
-    function cb() {}
+    function cb(err: Error) {
+        console.log(err);
+    }
+
+    function setFonts(
+        fontsFile: string,
+        fontInfo: FontInfo[],
+        cb: NoParamCallback
+    ) {
+        let finalString = "";
+
+        fontInfo.forEach((el) => {
+            finalString += `@font-face {\n\tfont-family: ${el.fontName};\n\tfont-display: swap;\n\tsrc: `;
+            el.fontExt.reverse();
+
+            for (let i = 0; i < el.fontExt.length; i++) {
+                finalString += `url("../fonts/${el.fontFileName}.${el.fontExt[i]}") format(${el.fontExt[i]})`;
+
+                if (i + 1 === el.fontExt.length) {
+                    finalString += ";";
+                } else {
+                    finalString += ", ";
+                }
+            }
+
+            finalString += `\n\tfont-weight: ${el.fontWeight};\n\tfont-style: normal;\n}\r\n`;
+        });
+
+        fs.appendFile(fontsFile, finalString, cb);
+    }
 }
