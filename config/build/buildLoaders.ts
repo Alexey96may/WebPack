@@ -7,7 +7,7 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     const isDev = options.mode === "development";
 
     const assetLoader = {
-        test: /\.(png|svg|jpg|jpeg|webp)$/i,
+        test: /\.(png|svg|jpg|jpeg|webp|avif)$/i,
         type: "asset/resource",
     };
 
@@ -58,8 +58,11 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     };
 
     const fontsLoader = {
-        test: /\.(woff(2)?|ttf(2)?|eot|otf)$/,
+        test: /\.(woff(2)?|ttf|eot|otf)$/,
         type: "asset/resource",
+        generator: {
+            filename: "assets/fonts/[name][ext]",
+        },
     };
 
     return [assetLoader, scssLoader, tsLoader, icoLoader, fontsLoader];

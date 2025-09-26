@@ -3,7 +3,9 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BuildOptions } from "./types/types";
 import { pages, getParcials } from "../pages";
+import { svgPlugIn } from "./utils/svg-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import ImageminAvifWebpackPlugin from "imagemin-avif-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import SVGSpritemapPlugin from "svg-spritemap-webpack-plugin";
 import path from "path";
@@ -24,6 +26,20 @@ export function buildPlugins({
             __ENV__: JSON.stringify(mode),
         }),
         new SVGSpritemapPlugin(["src/assets/**/*.svg"]),
+        new ImageminAvifWebpackPlugin({
+            config: [
+                {
+                    test: /\.(jpe?g|png)/,
+                    options: {
+                        quality: 75,
+                    },
+                },
+            ],
+            overrideExtension: true,
+            detailedLogs: true,
+            silent: false,
+            strict: false,
+        }),
     ];
 
     if (pages.length > 0) {
@@ -69,10 +85,6 @@ export function buildPlugins({
                     from: path.resolve(paths.src, "assets", "img"),
                     to: path.resolve(paths.output, "assets", "img"),
                 },
-                // {
-                //     from: path.resolve(paths.src, "assets", "fonts"),
-                //     to: path.resolve(paths.output, "assets", "fonts"),
-                // },
             ],
         })
     );
@@ -80,6 +92,11 @@ export function buildPlugins({
     if (analyzer) {
         plugins.push(new BundleAnalyzerPlugin());
     }
+
+    svgPlugIn(
+        path.resolve(paths.src, "assets", "fonts"),
+        path.resolve(paths.src, "assets", "scss", "utils", "_fonts.scss")
+    );
 
     return plugins;
 }

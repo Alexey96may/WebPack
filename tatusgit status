@@ -1,0 +1,18 @@
+[33mcommit fb9e96f7fc2e7caefd1027eaecb7b0d657fcfe5c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Alexey96may <shulga_alexey@vk.com>
+Date:   Thu Sep 25 12:34:18 2025 +0300
+
+    Fix readme
+
+[1mdiff --git a/README.md b/README.md[m
+[1mindex de17b73..fabfa57 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -10,6 +10,6 @@[m [mMy bundle on **Webpack 5** (Typescript, JS, SCSS, webp, html partials...)[m
+ 2. **Add html pages**, that you have registered, in _"src/pages/"_.[m
+     - The page FOLDER must have name as the page name in _"config/pages.ts"_ (use Lower Case).[m
+     - The page FILE must have name as the page name in _"config/pages.ts"_ (use the same Case as for the name in "config/pages.ts).[m
+[31m-3. **Add partials html** in _"src/partials"_ (there`s no need to register them).[m
+[32m+[m[32m3. **Add partial html files** in _"src/partials"_ (there`s no need to register them).[m
+     - Don`t use **"-"** in your partial file name![m
+ 4. **Use partial html** by printing `<%= htmlWebpackPlugin.options.partials.partial_name %>` in the other html file.[m

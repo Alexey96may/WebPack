@@ -1,3 +1,5 @@
+import * as flsFunctions from "./ts/functions/functions";
 import "./assets/scss/main.scss";
 
-const root = document.getElementById("root");
+flsFunctions.isWebp();
+flsFunctions.isAvif();

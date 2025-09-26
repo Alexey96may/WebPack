@@ -30,6 +30,7 @@
         "html-webpack-plugin": "latest",
         "image-minimizer-webpack-plugin": "latest",
         "imagemin": "latest",
+        "imagemin-avif-webpack-plugin": "latest",
         "imagemin-gifsicle": "latest",
         "imagemin-jpegtran": "latest",
         "imagemin-optipng": "latest",
@@ -50,6 +51,6 @@
         "webpack": "latest",
         "webpack-bundle-analyzer": "latest",
         "webpack-cli": "latest",
-        "webpack-dev-server": "^5.2.2"
+        "webpack-dev-server": "latest"
     }
 }
