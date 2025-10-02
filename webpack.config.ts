@@ -19,8 +19,7 @@ export default (env: EnvVariables) => {
         output: path.resolve(__dirname, "build"),
         entry: path.resolve(__dirname, "src", "index.ts"),
         html: path.resolve(__dirname, "src", "pages", "index", "index.html"),
-        htmlPages: path.resolve(__dirname, "src", "pages"),
-        htmlPartials: path.resolve(__dirname, "src", "partials"),
+        htmlPages: path.resolve(__dirname, "src", "html", "pages"),
         public: path.resolve(__dirname, "public"),
         src: path.resolve(__dirname, "src"),
     };

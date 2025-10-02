@@ -2,12 +2,13 @@ import webpack, { Configuration, DefinePlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BuildOptions } from "./types/types";
-import { pages, getParcials } from "../pages";
+import { pages } from "../pages";
 import { fontPlugIn } from "./utils/font-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ImageminAvifWebpackPlugin from "imagemin-avif-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import SVGSpritemapPlugin from "svg-spritemap-webpack-plugin";
+import ImageminWebpWebpackPlugin from "imagemin-webp-webpack-plugin";
 import path from "path";
 import CopyPlugin from "copy-webpack-plugin";
 
@@ -25,7 +26,12 @@ export function buildPlugins({
             __PLATFORM__: JSON.stringify(platform),
             __ENV__: JSON.stringify(mode),
         }),
-        new SVGSpritemapPlugin(["src/assets/**/*.svg"]),
+        new SVGSpritemapPlugin("src/assets/**/*.svg", {
+            output: {
+                filename: "/assets/sprites/spritemap.svg",
+            },
+        }),
+        new ImageminWebpWebpackPlugin(),
         new ImageminAvifWebpackPlugin({
             config: [
                 {
@@ -43,8 +49,6 @@ export function buildPlugins({
     ];
 
     if (pages.length > 0) {
-        const htmlParcials = getParcials(paths.htmlPartials);
-
         pages.forEach((page) => {
             plugins.push(
                 new HtmlWebpackPlugin({
@@ -52,11 +56,11 @@ export function buildPlugins({
                     filename: `${page.name}.html`,
                     template: path.resolve(
                         paths.htmlPages,
-                        page.name.toLowerCase(),
                         `${page.name}.html`
                     ),
                     chunks: page.chunks ? page.chunks : [],
-                    partials: htmlParcials,
+                    // inject: false,
+                    cache: false,
                 })
             );
         });
@@ -84,6 +88,10 @@ export function buildPlugins({
                 {
                     from: path.resolve(paths.src, "assets", "img"),
                     to: path.resolve(paths.output, "assets", "img"),
+                },
+                {
+                    from: path.resolve(paths.src, "assets", "fonts"),
+                    to: path.resolve(paths.output, "assets", "fonts"),
                 },
             ],
         })

@@ -4,7 +4,6 @@ export interface BuildPaths {
     public: string;
     output: string;
     htmlPages: string;
-    htmlPartials: string;
     src: string;
 }
 
@@ -23,8 +22,4 @@ export interface Page {
     name: string;
     chunks?: string[];
     partials?: string[];
-}
-
-export interface Partial {
-    [key: string]: string;
 }

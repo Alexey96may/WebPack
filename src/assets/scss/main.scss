@@ -1,11 +1,4 @@
 @use "./utils/reset";
-@use "./utils/fonts";
-@use "./utils/vars";
-
-body {
-    background-color: vars.$mainColor;
-
-    @media (max-width: 323px) {
-        color: #000;
-    }
-}
+@use "./modules/body";
+@use "./modules/header";
+@use "./modules/footer";

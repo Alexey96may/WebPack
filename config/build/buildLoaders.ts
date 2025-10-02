@@ -9,6 +9,15 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     const assetLoader = {
         test: /\.(png|svg|jpg|jpeg|webp|avif)$/i,
         type: "asset/resource",
+        generator: {
+            filename: "assets/img/[name][hash][ext]",
+        },
+    };
+
+    const htmlLoader = {
+        test: /\.html$/,
+        include: path.resolve(__dirname, "src/html/modules"),
+        use: ["raw-loader"],
     };
 
     const icoLoader = {
@@ -21,23 +30,19 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
         },
     };
 
-    const cssLoaderWithModules = {
+    const cssLoader = {
         loader: "css-loader",
         options: {
-            modules: {
-                localIdentName: isDev
-                    ? "[path][name]__[local]"
-                    : "[hash:base64:8]",
-            },
+            sourceMap: true,
+            url: false,
         },
     };
 
     const scssLoader = {
         test: /\.s[ac]ss$/i,
         use: [
-            // isDev ? "style-loader" : MiniCssExtractPlugin.loader,
-            MiniCssExtractPlugin.loader,
-            cssLoaderWithModules,
+            isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+            cssLoader,
             "postcss-loader",
             "group-css-media-queries",
             "sass-loader",
@@ -65,5 +70,12 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
         },
     };
 
-    return [assetLoader, scssLoader, tsLoader, icoLoader, fontsLoader];
+    return [
+        assetLoader,
+        htmlLoader,
+        scssLoader,
+        tsLoader,
+        icoLoader,
+        fontsLoader,
+    ];
 }

@@ -3,7 +3,7 @@
         "outDir": "./dist/",
         "noImplicitAny": true,
         "module": "ESNext",
-        "target": "es5",
+        "target": "es2015",
         "allowJs": true,
         "typeRoots": ["./config/build/types/"],
         "moduleResolution": "node",
