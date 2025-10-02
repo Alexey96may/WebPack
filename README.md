@@ -14,5 +14,6 @@ My bundle on **Webpack 5** (Typescript, SCSS, html modules, webp/avif transformi
 ## Also this Bundle can:
 
 1. Transform your png/jpg/jpeg images in webp and avif. Just upload images in the `src/assets/img` folder.
+    1. Typescrpt code in `src/ts/functions/functions.ts` is checking if the browser supports webp and avif images. If it does, `html` tag will have class 'webp' or/and 'avif', if it doesn\`t support them, `html` tag will have class 'no-webp' or/and 'no-avif'.
 2. Automatically plug in your fonts in `_fonts.scss` file. There is no need to create it, just upload your fonts in the `src/assets/fonts` folder.
 3. Automatically create a spritemap file from your sprites. Just upload your sprites in the `src/assets/sprites` folder.
