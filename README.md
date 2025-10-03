@@ -9,7 +9,7 @@ My bundle on **Webpack 5** (Typescript, SCSS, html modules, webp/avif transformi
     2. Add js chunck names if the page will use them.
 2. **Add html pages**, that you have registered, in _"src/html/pages/"_.
 3. **Add modules html files** in _"src/html/modules"_ (there`s no need to register them).
-4. **Use modules html** by printing `<%=_.template(require('raw-loader!@/modules/header.html').default)()%>` in the html pages (as an example).
+4. **Use modules html** by printing `<%=_.template(require('raw-loader!@/html/modules/header.html').default)()%>` in the html pages (as an example).
 
 ## Also this Bundle can:
 
